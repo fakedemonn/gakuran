@@ -79,7 +79,7 @@ return function(ctx)
 		Hooks.sweep()
 	end)
 
-	notify(string.format("AutoParry v%s loaded for place %d", ctx.VERSION, game.PlaceId), 4)
+	notify(string.format("Fleur v%s loaded for place %d", ctx.VERSION, game.PlaceId), 4)
 
 	-- Says which folders are actually being listened to. A game that keeps
 	-- players and mobs in separate folders is the normal case, and silently
