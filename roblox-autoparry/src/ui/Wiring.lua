@@ -11,7 +11,7 @@ return function(ctx)
 	local Store, Log, Util, FS, Hooks = ctx.Store, ctx.Log, ctx.Util, ctx.FS, ctx.Hooks
 	local LoggerGui, Visualizer, notify = ctx.LoggerGui, ctx.Visualizer, ctx.notify
 	local Effects, EffectGui, Dodge = ctx.Effects, ctx.EffectGui, ctx.Dodge
-	local BuilderBox, StoreBox, HitboxBox = ctx.BuilderBox, ctx.StoreBox, ctx.HitboxBox
+	local BuilderBox, HitboxBox = ctx.BuilderBox, ctx.HitboxBox
 	local EffectBuildBox, EffectStoreBox = ctx.EffectBuildBox, ctx.EffectStoreBox
 	local timingList, StoreLabel = ctx.timingList, ctx.StoreLabel
 	local effectList = ctx.effectList
@@ -118,37 +118,6 @@ return function(ctx)
 		notify("Created timing for " .. entityName, 2)
 	end)
 
-	-- Save Config, Load Config, Refresh Lists and Delete Config used to sit here.
-	-- With one auto-written file per place there is nothing for them to name,
-	-- pick, refresh or delete. The two that survive are the ones that move data
-	-- between this machine and the repo, which auto-save cannot do for you.
-	StoreBox:AddButton({
-		Text = "Download Timings",
-		DoubleClick = true,
-		Tooltip = "Replace your local database with the one bundled for this place",
-		Func = function()
-			-- Double click, because this overwrites your local file with the repo's
-			-- copy. Boot only does it when there is nothing local yet; this is the
-			-- manual escape hatch for when you want to start over.
-			local ok, err = Store.fetch()
-			if not ok then
-				return notify("Download failed: " .. tostring(err), 3)
-			end
-
-			Store.autosave()
-			Options.TimingList:SetValue(nil)
-			refreshTimingList()
-			notify(string.format("Downloaded %d timings", Store.count()), 3)
-		end,
-	}):AddButton({
-		Text = "Copy Database",
-		Tooltip = "Whole timing database to the clipboard, ready to paste into the repo",
-		Func = function()
-			local ok, err = Store.copy()
-			notify(ok and string.format("Copied %d timings", Store.count()) or ("Copy failed: " .. tostring(err)), 3)
-		end,
-	})
-
 	----------------------------------------------------------------------------
 	-- Hitbox preview <-> timing database
 	----------------------------------------------------------------------------
@@ -231,7 +200,7 @@ return function(ctx)
 	----------------------------------------------------------------------------
 
 	---Push a profile into the effect builder fields.
-	local function loadEffectIntoBuilder(name)
+	loadEffectIntoBuilder = function(name)
 		local profile = Effects.profiles[name]
 
 		-- No profile yet is the common case: you clicked a row to start writing
