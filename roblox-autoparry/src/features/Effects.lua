@@ -442,7 +442,7 @@ return function(ctx)
 			Workspace.DescendantAdded:Connect(function(instance)
 				local ok, err = pcall(Effects.consider, instance)
 				if not ok and ctx.Toggles.ShowDebug and ctx.Toggles.ShowDebug.Value then
-					warn("[AutoParry] effects: " .. tostring(err))
+					warn("[Fleur] effects: " .. tostring(err))
 				end
 			end)
 		)
@@ -460,3 +460,4 @@ return function(ctx)
 	ctx.Effects = Effects
 	return Effects
 end
+
