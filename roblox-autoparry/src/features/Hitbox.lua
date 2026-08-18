@@ -411,7 +411,7 @@ return function(ctx)
 			measureConnection = Workspace.DescendantAdded:Connect(function(instance)
 				local ok, err = pcall(considerPart, instance)
 				if not ok and Toggles and Toggles.ShowDebug and Toggles.ShowDebug.Value then
-					warn("[AutoParry] measure: " .. tostring(err))
+					warn("[Fleur] measure: " .. tostring(err))
 				end
 			end)
 		elseif not want and measureConnection then
@@ -694,7 +694,7 @@ return function(ctx)
 		RunService:BindToRenderStep(BIND, Enum.RenderPriority.Camera.Value + 1, function()
 			local ok, err = pcall(Hitbox.step)
 			if not ok and ctx.Toggles and ctx.Toggles.ShowDebug and ctx.Toggles.ShowDebug.Value then
-				warn("[AutoParry] hitbox: " .. tostring(err))
+				warn("[Fleur] hitbox: " .. tostring(err))
 			end
 		end)
 	end
