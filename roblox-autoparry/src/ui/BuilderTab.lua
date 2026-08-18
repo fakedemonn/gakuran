@@ -56,18 +56,16 @@ return function(ctx)
 		Log.clear()
 	end)
 
-	local VisualBox = Tabs.Builder:AddLeftGroupbox("Animation Visualizer")
-
-	VisualBox:AddToggle("ShowAnimationVisualizer", {
-		Text = "Show Visualizer",
-		Default = false,
-	}):AddKeyPicker("VisualizerKey", {
-		Default = "N/A",
-		SyncToggleState = true,
-		Mode = "Toggle",
-		Text = "Visualizer",
-	})
-
+-- DELETE OR REMOVE KEYBIND FROM THIS:
+BuilderBox:AddToggle("ShowAnimationVisualizer", {
+    Text = "Show Animation Visualizer",
+    Default = false,
+}):AddKeypicker("VisualizerKeybind", {
+    Default = "None",
+    SyncToggleState = true,
+    Mode = "Toggle",
+    Text = "Visualizer Keybind",
+})
 	-- Its own groupbox on purpose: these sliders drive the drawing only. Nothing
 	-- here touches a saved timing until you press Apply, so you can drag them
 	-- around mid-fight without corrupting a tuned entry.
