@@ -41,7 +41,7 @@ return function(ctx)
 	ctx.Options = env.Options or Options
 
 	if not ctx.Toggles or not ctx.Options then
-		error("[AutoParry] LinoriaLib did not publish Toggles/Options", 0)
+		error("[Fleur] LinoriaLib did not publish Toggles/Options", 0)
 	end
 
 	return Library
