@@ -13,7 +13,7 @@ return function(ctx)
 	local SaveManager = loadstring(game:HttpGet(ctx.LIB_REPO .. "addons/SaveManager.lua"))()
 
 	local Window = Library:CreateWindow({
-		Title = string.format("Fleur v%s", ctx.VERSION),
+		Title = "Fleur",
 		Center = true,
 		AutoShow = true,
 		TabPadding = 8,
