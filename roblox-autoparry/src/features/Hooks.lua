@@ -38,7 +38,7 @@ return function(ctx)
 		local connection = animator.AnimationPlayed:Connect(function(track)
 			local ok, err = pcall(ctx.Engine.onAnimation, entity, track)
 			if not ok and ctx.Toggles.ShowDebug and ctx.Toggles.ShowDebug.Value then
-				warn("[AutoParry] " .. tostring(err))
+				warn("[Fleur] " .. tostring(err))
 			end
 		end)
 
