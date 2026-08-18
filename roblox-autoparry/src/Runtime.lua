@@ -30,7 +30,7 @@ return function(ctx)
 
 		Library:SetWatermark(
 			string.format(
-				"AutoParry v%s | %d fps | %d ms | %d parries",
+				"Fleur v%s | %d fps | %d ms | %d parries",
 				ctx.VERSION,
 				fps,
 				math.floor(Latency.rtt() * 1000),
@@ -92,13 +92,14 @@ return function(ctx)
 			-- with the rest of the library, so a notification would flash and vanish.
 			local ok, err = Store.save(Store.configName)
 			if not ok then
-				warn("[AutoParry] Timings not written on unload: " .. tostring(err))
+				warn("[Fleur] Timings not written on unload: " .. tostring(err))
 			end
 		end
 
 		Library.Unloaded = true
-		print("[AutoParry] Unloaded.")
+		print("[Fleur] Unloaded.")
 	end)
 
 	return renderConnection
 end
+
