@@ -33,9 +33,11 @@ return function(ctx)
 	local function refreshTimingList()
 		timingList:SetValues(Store.display())
 		timingList:Display()
-		StoreLabel:SetText(
-			string.format("Timings: %d | %s", Store.count(), FS.available and "saved locally" or "no disk access")
-		)
+		if StoreLabel then
+			StoreLabel:SetText(
+				string.format("Timings: %d | %s", Store.count(), FS.available and "saved locally" or "no disk access")
+			)
+		end
 	end
 
 	-- Boot.lua calls this once the database is on disk.
@@ -123,9 +125,6 @@ return function(ctx)
 	----------------------------------------------------------------------------
 
 	---Which timing the preview buttons act on.
-	---The logger selection wins, because if the visualizer is open that is the
-	---animation you are actually looking at; the dropdown is the fallback for
-	---when you are tuning without the logger up.
 	local function previewTarget()
 		if Log.selected then
 			local fromLog = Store.get(Log.selected)
@@ -147,8 +146,6 @@ return function(ctx)
 
 			timing = Store.normalise(timing)
 
-			-- One place does this, and it is Hitbox.adopt, so the visualizer and
-			-- this button cannot end up filling in different subsets of the fields.
 			ctx.Hitbox.adopt(timing)
 
 			notify("Loaded hitbox from " .. timing.name, 2)
@@ -179,15 +176,11 @@ return function(ctx)
 
 			local ok, err = Store.autosave()
 
-			-- The visualizer's Quick Edit panel shows the same numbers, so repaint
-			-- it rather than leaving two views of one timing disagreeing.
 			if Visualizer.syncEditor then
 				pcall(Visualizer.syncEditor, timing.id)
 			end
 
 			refreshTimingList()
-			-- "Applied" either way: the timing is live in memory whether or not it
-			-- reached a file. The suffix says which.
 			notify(
 				string.format("Applied hitbox to %s%s", timing.name, ok and "" or " (" .. tostring(err) .. ")"),
 				2
@@ -199,13 +192,9 @@ return function(ctx)
 	-- Effect profiles
 	----------------------------------------------------------------------------
 
-	---Push a profile into the effect builder fields.
-	loadEffectIntoBuilder = function(name)
+	local function loadEffectIntoBuilder(name)
 		local profile = Effects.profiles[name]
 
-		-- No profile yet is the common case: you clicked a row to start writing
-		-- one. Fill the fields from a blank template so the name is already typed
-		-- in and Save Effect is the only thing left to press.
 		if not profile then
 			profile = Effects.template(name)
 		end
@@ -309,8 +298,6 @@ return function(ctx)
 	end)
 
 	Toggles.LogEffects:OnChanged(function()
-		-- The workspace listener is the expensive part, so it only exists while
-		-- something wants it. React needs it too, hence both flags.
 		if Toggles.LogEffects.Value or Toggles.EffectReact.Value then
 			Effects.attach()
 		else
@@ -342,8 +329,6 @@ return function(ctx)
 		Visualizer.visible(Toggles.ShowAnimationVisualizer.Value)
 	end)
 
-	-- Both re-resolve the containers, so the cached rig list has to go with them
-	-- or the hitbox anchor keeps pointing at a rig from the old source.
 	local function resweep()
 		Hooks.detach()
 		ctx.Entities.invalidate()
