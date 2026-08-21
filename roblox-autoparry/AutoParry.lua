@@ -3592,9 +3592,7 @@ do
 				Text = "Show Visualizer",
 				Default = false,
 			}):AddKeyPicker("VisualizerKey", {
-				-- Same default as the parry key on purpose is a bad idea, but F is what
-				-- was asked for. Rebind it here if you parry on F too.
-				Default = "F",
+				Default = "N/A",
 				SyncToggleState = true,
 				Mode = "Toggle",
 				Text = "Visualizer",
